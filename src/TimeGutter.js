@@ -24,7 +24,9 @@ export default class TimeGutter extends Component {
   }
 
   renderSlot = (value, idx) => {
-    if (idx !== 0) return null
+    //if (idx !== 0) return null
+    // Change to have labels on the hour only not on the first grouping
+    if (value.getMinutes() !== 0) return null
     const { localizer, getNow } = this.props
 
     const isNow = this.slotMetrics.dateIsInGroup(getNow(), idx)
