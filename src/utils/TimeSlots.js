@@ -72,13 +72,18 @@ export function getSlotMetrics({ min: start, max: end, step, timeslots }) {
     },
 
     dateIsInGroup(date, groupIndex) {
-      const nextGroup = groups[groupIndex + 1]
-      return dates.inRange(
-        date,
-        groups[groupIndex][0],
-        nextGroup ? nextGroup[0] : end,
-        'minutes'
-      )
+      if(groups.length >= groupIndex + 1){
+        const nextGroup = groups[groupIndex + 1]
+        return dates.inRange(
+          date,
+          groups[groupIndex][0],
+          nextGroup ? nextGroup[0] : end,
+          'minutes'
+        )
+      }else{
+        return false;
+      }
+      
     },
 
     nextSlot(slot) {
