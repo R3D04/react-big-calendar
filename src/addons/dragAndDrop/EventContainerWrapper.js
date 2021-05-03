@@ -60,18 +60,21 @@ class EventContainerWrapper extends React.Component {
   }
 
   handleMove = (point, bounds) => {
-    if (!pointInColumn(bounds, point)) return this.reset()
-    const { event } = this.context.draggable.dragAndDropAction
-    const { accessors, slotMetrics } = this.props
+    //if (!pointInColumn(bounds, point)) return this.reset()
+    // Allow move outside of the columns (test will probably revert)
+    if(pointInColumn(bounds, point)){
+      const { event } = this.context.draggable.dragAndDropAction
+      const { accessors, slotMetrics } = this.props
 
-    const newSlot = slotMetrics.closestSlotFromPoint(
-      { y: point.y - this.eventOffsetTop, x: point.x },
-      bounds
-    )
+      const newSlot = slotMetrics.closestSlotFromPoint(
+        { y: point.y - this.eventOffsetTop, x: point.x },
+        bounds
+      )
 
-    const { duration } = eventTimes(event, accessors)
-    let newEnd = dates.add(newSlot, duration, 'milliseconds')
-    this.update(event, slotMetrics.getRange(newSlot, newEnd, false, true))
+      const { duration } = eventTimes(event, accessors)
+      let newEnd = dates.add(newSlot, duration, 'milliseconds')
+      this.update(event, slotMetrics.getRange(newSlot, newEnd, false, true))
+    }
   }
 
   handleResize(point, bounds) {
